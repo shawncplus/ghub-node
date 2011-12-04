@@ -5,6 +5,8 @@ Stupid port of my git-ghub command to node.js. Current only supports listing ope
 Requirements
 ===
 NodeJS
+---
+npm modules
 
 * optimist
 * github
