@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+// System/npm modules
+var puts = require('sys').puts;
+var exec = require('child_process').exec;
+var argv = require('optimist').usage("Usage: git ghub <issues [open|closed]>").demand(1).argv;
+
+// Local modules
+var ghub   = require('./commands.js');
+
+exec('git remote -v', function (err, stdout, stderr) {
+
+	var user = '', repo = '';
+	// Check to see if we're currently in a git repo and if so grab the repo name and user
+	var remotes = stdout.split("\n").forEach(function (remote) {
+		if (user.length || repo.length) return;
+		var matches = (new RegExp('origin\\s+git@github.com:(\\w+)\/(\\w+)\\.git \\(fetch\\)')).exec(remote);
+
+		if (matches) {
+			user = matches[1];
+			repo = matches[2];
+		}
+	});
+
+	if (!user || !repo) {
+		puts("Not in a github repo, or origin branch is named strangely");
+		process.exit(1);
+	}
+
+	var command = argv._.shift()
+
+	if (!(command in ghub.commands))
+	{
+		puts(command + " is not a valid command.");
+		process.exit(1);
+	}
+
+	ghub.commands[command](user, repo, argv._);
+});
+
+
+
+// vim: set syn=javascript :
