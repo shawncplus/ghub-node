@@ -4,10 +4,11 @@ Stupid port of my git-ghub command to node.js. Current only supports listing ope
 
 Requirements
 ===
-nodejs
- * optimist
- * github
- * sprintf
+NodeJS
+
+* optimist
+* github
+* sprintf
 
 Installing
 ===
